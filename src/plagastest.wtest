@@ -1,0 +1,92 @@
+import barrios.*
+import plagas.*
+
+
+describe "plagas"{
+	
+	const cuca1= new Cucaracha( pesoPromedio=5, poblacion=9)
+	const cuca2= new Cucaracha( pesoPromedio=50, poblacion=50)
+	
+	const pulga1=new Pulga(poblacion=30 )
+	const pulga2=new Pulga(poblacion=5 )
+	
+	const garrapata1=new Garrapata(poblacion=40)
+	const garrapata2=new Garrapata(poblacion=7)
+	
+	const mosquito1 = new Mosquito(poblacion=4)
+	const mosquito2= new Mosquito(poblacion=30)
+	
+	
+	method initialize(){
+			
+	}
+	test "nivel de daño de la cuca1"{
+										//mitad de poblacion
+		assert.equals(4.5, cuca1.nivelDeDanio())
+	}
+	test "nivel de daño de la pulga1"{
+										// doble de poblacion
+		assert.equals(60, pulga1.nivelDeDanio())
+	}
+	test "nivel de daño de la garrapata1"{
+										//hereda de pulga
+		assert.equals(80, garrapata1.nivelDeDanio())
+	}
+	test "nivel de daño de la mosquito1"{
+										//igual a poblacion
+		assert.equals(4, mosquito1.nivelDeDanio())
+	}
+	test "cuca1 no transmite enfermedad"{
+		assert.notThat(cuca1.transmitirEnfermedad())
+	}
+	test "cuca2  transmite enfermedad"{
+		assert.that(cuca2.transmitirEnfermedad())
+	}	
+	test "pulga2 no transmite enfermedad"{
+		assert.notThat(pulga2.transmitirEnfermedad())
+	}
+	test "pulga1  transmite enfermedad"{
+		assert.that(pulga1.transmitirEnfermedad())
+	}
+	test "garrapata2 no transmite enfermedad"{
+		assert.notThat(garrapata2.transmitirEnfermedad())
+	}
+	test "garrapata1  transmite enfermedad"{
+		assert.that(garrapata1.transmitirEnfermedad())
+	}
+	test "mosquito1 no transmite enfermedad"{
+		assert.notThat(mosquito1.transmitirEnfermedad())
+	}
+	test "mosquito2  transmite enfermedad"{
+		assert.that(mosquito2.transmitirEnfermedad())
+	}			
+	test "cuca2 efecto de ataque: cambia el peso y la poblacion"{
+						//peso promedio  +2 y poblacion +10%
+		cuca2.efectoDeAtaque()
+		assert.equals(52, cuca2.pesoPromedio())
+		assert.equals(55, cuca2.poblacion())
+	}
+	test "pulga1 efecto de ataque aumenta la poblacion en 10%"{
+						
+		pulga1.efectoDeAtaque()
+		assert.equals(33, pulga1.poblacion())
+	}
+	test "garrapata1 efecto de ataque aumenta la poblacion en 20%"{
+						
+		garrapata1.efectoDeAtaque()
+		assert.equals(48, garrapata1.poblacion())
+	}
+	test "mosquito2 efecto de ataque aumenta la poblacion en 10%"{
+						
+		mosquito2.efectoDeAtaque()
+		assert.equals(33, mosquito2.poblacion())
+	}
+	
+	
+} 
+
+
+
+
+
+

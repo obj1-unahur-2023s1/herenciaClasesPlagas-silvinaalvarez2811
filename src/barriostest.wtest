@@ -1,0 +1,126 @@
+import barrios.*
+import plagas.*
+
+
+describe "elementos del hogar y barrio"{
+	
+	const hogar1= new Hogar( confort=11, nivelDeMugre= 5)
+	const hogar2= new Hogar( confort=10, nivelDeMugre= 30)
+	
+	const huerta1=new Huerta(capacidadDeProduccion=20, referenciaProduccion=10 )
+	const huerta2=new Huerta(capacidadDeProduccion=10, referenciaProduccion=15 )
+	
+	const mascota1=new Mascota(nivelDeSalud=300)
+	const mascota2=new Mascota(nivelDeSalud=200)
+	
+	const barrio1 = new Barrio()
+	const listaBarrio1=[ hogar1, hogar2, huerta1, huerta2, mascota1, mascota2]
+	
+	
+	
+	
+	method initialize(){
+		listaBarrio1.forEach (  {elem => barrio1.agregarElemento(elem)} )
+		
+	}
+	
+	test "el hogar 1  es bueno"{	// cuando nivel de mugre mitad del confort
+		assert.that(hogar1.esBueno())							
+	}
+	test "el hogar 2 no es bueno"{  
+		assert.notThat(hogar2.esBueno())							
+	}
+	test "la huerta 1 es buena"{  
+									// cuando capac.de prod mayor a nivel de referencia
+		assert.that(huerta1.esBueno())							
+	}
+	test "la huerta 2 no es buena"{  
+		assert.notThat(huerta2.esBueno())							
+	}
+	test "la mascota 1 es buena"{  
+									// cuando nivel de mugre mitad del confort
+		assert.that(mascota1.esBueno())							
+	}
+	test "la mascota 2 no es buena"{  
+		assert.notThat(mascota2.esBueno())							
+	}
+	
+	test " elementos del barrio"{
+		assert.equals ( [hogar1, hogar2, huerta1, huerta2, mascota1, mascota2], barrio1.elementos())
+	}
+	
+	test "el barrio no es copado"{
+		assert.notThat(barrio1.esCopado())
+	}
+											
+	test "el barrio ahora es copado" { 
+								// le saco un elem. no bueno y ahora tiene más buenos que malos
+		barrio1.quitarElemento(mascota2)
+		assert.that(barrio1.esCopado())	
+	}
+	
+}
+
+describe "barrio recibe ataque de cuca1"{
+	
+	const hogar1= new Hogar( confort=11, nivelDeMugre= 5)
+	const huerta1=new Huerta(capacidadDeProduccion=20, referenciaProduccion=10 )
+	const mascota1=new Mascota(nivelDeSalud=200)
+	const barrio1 = new Barrio()
+	const listaBarrio1=[ hogar1, huerta1, mascota1]
+	const cuca1= new Cucaracha( pesoPromedio=5, poblacion=9)
+	const pulga1=new Pulga(poblacion=30 )
+	
+	
+	method initialize(){
+		listaBarrio1.forEach (  {elem => barrio1.agregarElemento(elem)} )
+			
+	}
+	test "hogar1 sufre ataque de cuca1"{
+		hogar1.sufrirAtaque(cuca1)
+		assert.equals(4.5, hogar1.nivelDeMugre())
+	}
+	test "huerta1 sufre ataque de cuca1 que no transmite enfermedades"{
+									//capac de prod - 10% de nivel daño de plaga
+		huerta1.sufrirAtaque(cuca1)
+		assert.equals(19.55, huerta1.capacidadDeProduccion())
+	}
+	test "huerta1 sufre ataque de pulga1 que  transmite enfermedades"{
+						//capac de prod - 10% de nivel daño de plaga -10
+		huerta1.sufrirAtaque(pulga1)
+		assert.equals(4, huerta1.capacidadDeProduccion())
+	}	
+	test "mascota1 sufre ataque de cuca1 que no transmite enfermedades"{
+									//nivel de salud no cambia
+		mascota1.sufrirAtaque(cuca1)
+		assert.equals(200, mascota1.nivelDeSalud())
+	}
+	test "mascota1 sufre ataque de pulga1 que transmite enfermedades"{
+									//nivel de salud -nivel de daño de plaga
+		mascota1.sufrirAtaque(pulga1)
+		assert.equals(140, mascota1.nivelDeSalud())
+	}
+	test "el barrio recibe un ataque de cuca1, efecto en hogar1"{
+		
+		barrio1.recibirAtaque(cuca1)
+		assert.equals(4.5, hogar1.nivelDeMugre())
+	}
+	test "el barrio recibe un ataque de cuca1, efecto en huerta1"{
+		
+		barrio1.recibirAtaque(cuca1)
+		assert.equals(19.55, huerta1.capacidadDeProduccion())	
+	}
+	test "el barrio recibe un ataque de cuca1, efecto en mascota1"{
+		
+		barrio1.recibirAtaque(cuca1)
+		assert.equals(200, mascota1.nivelDeSalud())
+	}
+	test "el barrio recibe un ataque de pulga1, efecto en pulga1"{
+										//aumenta la poblacion en 10%
+		barrio1.recibirAtaque(pulga1)
+		assert.equals(33, pulga1.poblacion())
+	}
+
+
+
+}
