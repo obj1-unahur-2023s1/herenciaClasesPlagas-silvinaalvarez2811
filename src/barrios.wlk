@@ -18,12 +18,8 @@ class Barrio{
 		
 		return elemBuenos>elemMalos
 	}
-
-	method recibirAtaque(plaga){
-		elementos.forEach({elem=>elem.sufrirAtaque(plaga)})
-		plaga.efectoDeAtaque()
-	}
 }
+
 
 class Hogar{
 	var property nivelDeMugre
@@ -39,18 +35,19 @@ class Hogar{
 	}
 }
 
+
 class Huerta{
 	var property capacidadDeProduccion
-	var property referenciaProduccion
+	var property referenciaProduccion = produccion
 	
 	method esBueno(){
 		return capacidadDeProduccion>referenciaProduccion
 	}
 	
 	method sufrirAtaque(plaga){
-		capacidadDeProduccion-= plaga.nivelDeDanio()*0.1
+		capacidadDeProduccion= 0.max(capacidadDeProduccion - plaga.nivelDeDanio() * 0.1)
 		if (plaga.transmitirEnfermedad()){
-			capacidadDeProduccion-=10
+			capacidadDeProduccion= 0.max(capacidadDeProduccion - 10)
 		}
 	}
 }
@@ -60,12 +57,17 @@ class Mascota{
 	var property nivelDeSalud
 	
 	method esBueno(){
-		return nivelDeSalud>250
+		return nivelDeSalud > 250
 	}
 	method sufrirAtaque(plaga){
 		if (plaga.transmitirEnfermedad()){
-		nivelDeSalud-= plaga.nivelDeDanio()
+		nivelDeSalud= 0.max( nivelDeSalud - plaga.nivelDeDanio())
 		}
-	
 	}
 }
+
+object produccion{
+	var property produccionDeseada = 10
+}
+
+

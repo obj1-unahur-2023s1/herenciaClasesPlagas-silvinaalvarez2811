@@ -5,14 +5,14 @@ class Plaga{
 	var property poblacion 
 	
 	method transmitirEnfermedad(){
-		return poblacion>=10 && self.condicionAdicional()
+		return poblacion>=10 
 		
 	}
-	method condicionAdicional()=true
-	
-	method efectoDeAtaque(){
-		poblacion += poblacion*0.10
+	method atacar(unElemento){
+		unElemento.sufrirAtaque(self)
+		poblacion = poblacion* self.coeficiente()
 	}
+	method coeficiente() = 1.10
 }
 
 
@@ -22,13 +22,13 @@ class Cucaracha inherits Plaga{
 	method nivelDeDanio(){
 		return poblacion/2
 	}
-	
-	override method condicionAdicional(){
-		return pesoPromedio >=10 
+	override method transmitirEnfermedad(){
+		return super() && pesoPromedio >=10 
 	}
-	override method efectoDeAtaque(){
-		super()
+	override method atacar(unElemento){
+		super(unElemento)
 		pesoPromedio += 2
+		
 	}
 }
 
@@ -38,25 +38,23 @@ class Pulga inherits Plaga{
 	method nivelDeDanio(){
 		return poblacion*2
 	}
-
 }
 
 
 class Garrapata inherits Pulga{
 	
-	override method efectoDeAtaque(){
-		poblacion += poblacion*0.20
-		
-	}
+	override method coeficiente() = 1.20
+	
 }
 
 
 class Mosquito inherits Plaga{
+	
 	method nivelDeDanio(){
 		return poblacion
 	}
 	
-	override method condicionAdicional(){
-		return poblacion % 3 == 0 
+	override method transmitirEnfermedad(){
+		return  super() && poblacion % 3 == 0 
 	}
 }

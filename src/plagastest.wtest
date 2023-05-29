@@ -16,6 +16,7 @@ describe "plagas"{
 	const mosquito1 = new Mosquito(poblacion=4)
 	const mosquito2= new Mosquito(poblacion=30)
 	
+	const hogar1= new Hogar( confort=11, nivelDeMugre= 5)		
 	
 	method initialize(){
 			
@@ -62,23 +63,23 @@ describe "plagas"{
 	}			
 	test "cuca2 efecto de ataque: cambia el peso y la poblacion"{
 						//peso promedio  +2 y poblacion +10%
-		cuca2.efectoDeAtaque()
+		cuca2.atacar(hogar1)
 		assert.equals(52, cuca2.pesoPromedio())
 		assert.equals(55, cuca2.poblacion())
 	}
 	test "pulga1 efecto de ataque aumenta la poblacion en 10%"{
 						
-		pulga1.efectoDeAtaque()
+		pulga1.atacar(hogar1)
 		assert.equals(33, pulga1.poblacion())
 	}
 	test "garrapata1 efecto de ataque aumenta la poblacion en 20%"{
 						
-		garrapata1.efectoDeAtaque()
+		garrapata1.atacar(hogar1)
 		assert.equals(48, garrapata1.poblacion())
 	}
 	test "mosquito2 efecto de ataque aumenta la poblacion en 10%"{
-						
-		mosquito2.efectoDeAtaque()
+				
+		mosquito2.atacar(hogar1)
 		assert.equals(33, mosquito2.poblacion())
 	}
 	

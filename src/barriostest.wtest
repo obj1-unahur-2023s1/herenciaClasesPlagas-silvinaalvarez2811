@@ -100,26 +100,7 @@ describe "barrio recibe ataque de cuca1"{
 		mascota1.sufrirAtaque(pulga1)
 		assert.equals(140, mascota1.nivelDeSalud())
 	}
-	test "el barrio recibe un ataque de cuca1, efecto en hogar1"{
-		
-		barrio1.recibirAtaque(cuca1)
-		assert.equals(4.5, hogar1.nivelDeMugre())
-	}
-	test "el barrio recibe un ataque de cuca1, efecto en huerta1"{
-		
-		barrio1.recibirAtaque(cuca1)
-		assert.equals(19.55, huerta1.capacidadDeProduccion())	
-	}
-	test "el barrio recibe un ataque de cuca1, efecto en mascota1"{
-		
-		barrio1.recibirAtaque(cuca1)
-		assert.equals(200, mascota1.nivelDeSalud())
-	}
-	test "el barrio recibe un ataque de pulga1, efecto en pulga1"{
-										//aumenta la poblacion en 10%
-		barrio1.recibirAtaque(pulga1)
-		assert.equals(33, pulga1.poblacion())
-	}
+
 
 
 
